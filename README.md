@@ -51,6 +51,29 @@ alpaca-mcp    # starts server globally
 
 Each returns JSON in `content[0].text` or an error.
 
+## MCP Client Configuration
+
+To integrate via `mcp.config.json`, add the following under the `mcpServers` key:
+
+```json
+{
+  "mcpServers": {
+    "alpaca-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "alpaca-mcp"
+      ],
+      "env": {
+        "ALPACA_ENDPOINT": "https://data.alpaca.markets",
+        "ALPACA_BROKER_ENDPOINT": "https://broker-api.alpaca.markets",
+        "ALPACA_API_KEY": "<YOUR_API_KEY>",
+        "ALPACA_SECRET_KEY": "<YOUR_SECRET_KEY>"
+      }
+    }
+  }
+}
+
 ## Publishing
 
 ```bash

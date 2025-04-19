@@ -4,6 +4,9 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "alpaca-mcp": "dist/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "start": "npx tsx index.ts",
@@ -13,7 +16,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@modelcontextprotocnpmol/sdk": "^1.10.1",
+    "@modelcontextprotocol/sdk": "^1.10.1",
     "debug": "^4.4.0",
     "dotenv": "^16.0.0",
     "limiter": "^1.1.5",
@@ -22,6 +25,7 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.12",
     "@types/node": "^22.14.1",
     "tsx": "^3.12.7"
   }
