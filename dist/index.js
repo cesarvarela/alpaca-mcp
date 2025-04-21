@@ -32,12 +32,8 @@ function getBatches(arr, size) {
         batches.push(arr.slice(i, i + size));
     return batches;
 }
-const server = new McpServer({
-    name: "Alpaca MCP Server",
-    version: "1.0.0",
-    description: "Expose Alpaca API via MCP",
-});
-server.tool("get-assets", { assetClass: z.enum(["us_equity", "crypto"]).optional().default("us_equity") }, async ({ assetClass }) => {
+export { request, getBatches };
+export async function getAssets({ assetClass = 'us_equity' }) {
     try {
         const data = await request({
             base: process.env.ALPACA_BROKER_ENDPOINT,
@@ -51,13 +47,8 @@ server.tool("get-assets", { assetClass: z.enum(["us_equity", "crypto"]).optional
         debug("get-assets error", err);
         return { content: [{ type: "text", text: `Error fetching assets: ${err.message}` }], isError: true };
     }
-});
-server.tool("get-stock-bars", {
-    symbols: z.array(z.string()),
-    start: z.string(),
-    end: z.string(),
-    timeframe: z.string(),
-}, async ({ symbols, start, end, timeframe }) => {
+}
+export async function getStockBars({ symbols, start, end, timeframe }) {
     try {
         const result = { bars: {} };
         for (const batch of getBatches(symbols, 2000)) {
@@ -81,8 +72,8 @@ server.tool("get-stock-bars", {
         debug("get-stock-bars error", err);
         return { content: [{ type: "text", text: `Error fetching stock bars: ${err.message}` }], isError: true };
     }
-});
-server.tool("get-market-days", { start: z.string(), end: z.string() }, async ({ start, end }) => {
+}
+export async function getMarketDays({ start, end }) {
     try {
         const days = await request({
             base: process.env.ALPACA_ENDPOINT,
@@ -95,8 +86,8 @@ server.tool("get-market-days", { start: z.string(), end: z.string() }, async ({ 
         debug("get-market-days error", err);
         return { content: [{ type: "text", text: `Error fetching market days: ${err.message}` }], isError: true };
     }
-});
-server.tool("get-news", { start: z.string(), end: z.string(), symbols: z.array(z.string()) }, async ({ start, end, symbols }) => {
+}
+export async function getNews({ start, end, symbols }) {
     try {
         const all = [];
         let pageToken;
@@ -118,6 +109,20 @@ server.tool("get-news", { start: z.string(), end: z.string(), symbols: z.array(z
         debug("get-news error", err);
         return { content: [{ type: "text", text: `Error fetching news: ${err.message}` }], isError: true };
     }
+}
+const server = new McpServer({
+    name: "Alpaca MCP Server",
+    version: "1.0.0",
+    description: "Expose Alpaca API via MCP",
 });
+server.tool("get-assets", { assetClass: z.enum(["us_equity", "crypto"]).optional().default("us_equity") }, getAssets);
+server.tool("get-stock-bars", {
+    symbols: z.array(z.string()),
+    start: z.string(),
+    end: z.string(),
+    timeframe: z.string(),
+}, getStockBars);
+server.tool("get-market-days", { start: z.string(), end: z.string() }, getMarketDays);
+server.tool("get-news", { start: z.string(), end: z.string(), symbols: z.array(z.string()) }, getNews);
 const transport = new StdioServerTransport();
 await server.connect(transport);
