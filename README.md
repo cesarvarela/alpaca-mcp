@@ -1,9 +1,19 @@
 # Alpaca MCP Server
+[![smithery badge](https://smithery.ai/badge/@cesarvarela/alpaca-mcp)](https://smithery.ai/server/@cesarvarela/alpaca-mcp)
 
 Expose Alpaca Market Data & Broker API as MCP tools.
 
 ## Installation
 
+### Installing via Smithery
+
+To install Alpaca Market Data Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@cesarvarela/alpaca-mcp):
+
+```bash
+npx -y @smithery/cli install @cesarvarela/alpaca-mcp --client claude
+```
+
+### Manual Installation
 ```bash
 npm install alpaca-mcp
 ```
