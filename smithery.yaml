@@ -1,0 +1,36 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - alpacaEndpoint
+      - alpacaBrokerEndpoint
+      - alpacaApiKey
+      - alpacaSecretKey
+    properties:
+      alpacaEndpoint:
+        type: string
+        default: https://data.alpaca.markets
+        description: Alpaca endpoint URL for data requests
+      alpacaBrokerEndpoint:
+        type: string
+        default: https://broker-api.alpaca.markets
+        description: Alpaca broker endpoint URL
+      alpacaApiKey:
+        type: string
+        description: Alpaca API Key
+      alpacaSecretKey:
+        type: string
+        description: Alpaca Secret Key
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({command: 'node', args: ['dist/index.js'], env: { ALPACA_ENDPOINT: config.alpacaEndpoint, ALPACA_BROKER_ENDPOINT: config.alpacaBrokerEndpoint, ALPACA_API_KEY: config.alpacaApiKey, ALPACA_SECRET_KEY: config.alpacaSecretKey } })
+  exampleConfig:
+    alpacaEndpoint: https://data.alpaca.markets
+    alpacaBrokerEndpoint: https://broker-api.alpaca.markets
+    alpacaApiKey: PASTE_YOUR_API_KEY_HERE
+    alpacaSecretKey: PASTE_YOUR_SECRET_KEY_HERE
