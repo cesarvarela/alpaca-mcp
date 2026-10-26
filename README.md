@@ -1,5 +1,5 @@
 # Alpaca MCP Server
-[![smithery badge](https://smithery.ai/badge/@cesarvarela/alpaca-mcp)](https://smithery.ai/server/@cesarvarela/alpaca-mcp)
+[![LightNow capabilities](https://lightnow.ai/badge/io.github.cesarvarela/alpaca-mcp)](https://lightnow.ai/servers/io.github.cesarvarela/alpaca-mcp)
 
 Expose Alpaca Market Data & Broker API as MCP tools.
 
